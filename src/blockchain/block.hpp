@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../SHA256/SHA256.h"
+#include "../sha1/sha1.hpp"
 class Block
 {
     public:

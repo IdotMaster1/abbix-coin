@@ -3,7 +3,7 @@
 Blockchain::Blockchain()
 {
     chain.emplace_back(Block(0,"Genesis"));
-    difficulty = 0.1;
+    difficulty = 1;
 }
 void Blockchain::add_block(Block new_block)
 {

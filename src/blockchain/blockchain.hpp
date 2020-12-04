@@ -11,6 +11,6 @@ class Blockchain
         Blockchain();
         void add_block(Block new_block);
     private:
-        int difficulty;
+        double difficulty;
 };
 #endif
