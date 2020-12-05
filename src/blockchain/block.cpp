@@ -5,32 +5,19 @@
 #include <cstring>
 #include <time.h>
 #include "block.hpp"
+#include <sstream>
 void DisplayMessageDigest(unsigned *message_digest);
 Block::Block(int indexIn, const std::string &dataIn) : index(indexIn), data(dataIn)
 {
 
    hash = calculate_hash();
 }
-std::string format(const std::string& format, ...)
+inline std::string Block::calculate_hash() const
 {
-    va_list args;
-    va_start (args, format);
-    size_t len = std::vsnprintf(NULL, 0, format.c_str(), args);
-    va_end (args);
-    std::vector<char> vec(len + 1);
-    va_start (args, format);
-    std::vsnprintf(&vec[0], len + 1, format.c_str(), args);
-    va_end (args);
-    return &vec[0];
-}
-inline std::string Block::calculate_hash()
-{
-    char block_of_string[] = "%d %d %d %d";
     time_t timer;
-    std::string block_of_string_f = format(block_of_string,index,proof_no,prev_hash,data,time(&timer));
-    SHA1 sha;
-    sha.update(block_of_string_f);
-    return sha.final();
+    std::stringstream ss;
+    ss << index << prev_hash << time(&timer) << data << proof_no;
+    return sha256(ss.str());
 }
 void Block::mineblock(int Difficulty)
 {
@@ -39,13 +26,10 @@ void Block::mineblock(int Difficulty)
     for (int i = 0; i < Difficulty; ++i)
     {
         cstr[i] = '0';
-        std::cout<<"cstr[" <<i<<"] = 0";
     }
     cstr[Difficulty] = '\0';
 
     std::string str(cstr);
-    std::cout<<str;
-    std::cout<<hash;
     do
     {
         hash = calculate_hash();

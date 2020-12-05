@@ -6,11 +6,11 @@
 class Blockchain
 {
     public:
-        std::vector<Block> chain;
-        Block get_last_block();
         Blockchain();
         void add_block(Block new_block);
     private:
-        double difficulty;
+        int difficulty;
+        std::vector<Block> chain;
+        Block get_last_block();
 };
 #endif
